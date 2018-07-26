@@ -1,5 +1,8 @@
 # Quick Start
 
+Branch developer (shown as `dev` in terminal) owns the latest version of EasyML.
+Go and check it via git.
+
 Before you can use **EasyML Studio**, you must configure the environment which include your ***development environment*** and ***runtime server environment*** which contains *Preparation, Run Docker containers and Start services* three steps to run it successfully.
 
 ## Development Environment For IDEA
@@ -68,9 +71,13 @@ Before you can use **EasyML Studio**, you must configure the environment which i
 
 ### Step 1: Import project to Eclipse
 
+* Recommended java configuration: java version (jdk) 1.7, Eclipse 4.4(Luna), and GWT plugins for Eclipse 4.4 Luna.
+
 * Make sure your eclipse have install **maven** and **GWT** plugins.(As the GWT plugins can't be downloaded easily now, we supply [GWT plugins for Eclipse 4.4 Luna](https://pan.baidu.com/s/1hrFSyI4), you can install the plugin to eclipse by offline mode) 
 
 * Import the code into your IDE via maven project
+* For Eclipse on macOS, remember to remove or comment `jdk.tools` dependency properties in pom.xml(This dependency is not necessary for macOS).
+
 <div align=center>
 <img src="./img/import_to_eclipse.png" width = "55%" alt="Import maven project"/>
 </div>
@@ -114,7 +121,9 @@ Before you can use **EasyML Studio**, you must configure the environment which i
 <img src="./img/run_finish_eclipse.png" width = "80%" alt="Project server start finished"/>
 </div>
 
-* Switch to the `Development Mode`, and you can visit the project through the url.
+* Switch to the `Development Mode`, and you can visit the project through the url.<br>
+* For macOS users, remember to open index.html in Development Mode via Google Chrome browser (Safari cannot support GWT).
+
 <div align=center>
 <img src="./img/project_url_eclipse.png" width = "80%" alt="Project url for development mode"/>
 </div>
@@ -122,7 +131,8 @@ Before you can use **EasyML Studio**, you must configure the environment which i
 ## Preparation for virtual server cluster
 Our server cluster is based on ***Docker***, thus you can build run time environment on your own computer. It is convenient for you to develop project without any remote connections. Furthermore, you can also contribute to the server environments. The docker version server cluster is not stable and efficient, for which we can do a series of things on it. However, you first step to access it is installing Docker.
 ### Step 1: Install Docker 
-* Just follow the [official guide](https://www.docker.com/) to install Docker. If you install the `docker in windows`, at least `Minimum Memory Requirement (RAM) = 8GB` for standalone computer. Hard drive must contain `enough space (10GB)` in which you install Docker. Otherwise it will be very very slow.
+* Just follow the [official guide](https://www.docker.com/) to install Docker. If you install the `docker in windows`, at least `Minimum Memory Requirement (RAM) = 8GB` for standalone computer. Hard drive must contain `enough space (10GB)` in which you install Docker. Otherwise it will be quite slow. 
+* `Docker CE` can support all server cluster service needed for EasyML. [Docker CE for macOS](https://pan.baidu.com/s/1PMy2Wd-8026NrZepn5J10Q) is available here.
 * Make sure your docker service runs correctly via `Docker info` and `Docker version`
 * No matter which system your computer is, stop the **Firewall** of your system
 * If you are using *centos 7*, you also should stop the **selinux**, in order to avoiding run Docker container error. 
@@ -144,7 +154,7 @@ Our server cluster is based on ***Docker***, thus you can build run time environ
 	<img src="./img/origin_images.png" width = "90%" alt="eml_images"/>
  
 ### Step 4: Download install dependent package
-Every single server in our cluster is created by one *docker image*, and this *image* can be built via a **Dockerfile** which has defined by us and includes all utilities we need such as hadoop. Thus we need to download the **Dockerfile** and all dependent files and configuration files from our [google drive disk](https://drive.google.com/open?id=0B5Lj6qkCMBbFWW5uYlJwb2drb1k) or [Baidu Cloud](https://pan.baidu.com/s/1bpMwYSJ).
+Every single server in our cluster is created by one *docker image*, and this *image* can be built via a **Dockerfile** which has defined by us and includes all utilities we need such as hadoop. Thus we need to download the **Dockerfile** `EML_1.2.0.zip` and all dependent files and configuration files from our [google drive disk](https://drive.google.com/open?id=0B5Lj6qkCMBbFWW5uYlJwb2drb1k) or [Baidu Cloud](https://pan.baidu.com/s/1bpMwYSJ#list/path=%2F).
 
 
 ### Step 5: Build Eml server images  
@@ -202,7 +212,7 @@ Our EML installation package in version 1.2.0 or above could support Tensorflow 
  * Enter the *hadoop-master* container via `docker exec -it hadoop-master /bin/bash` (a vital important command to enter every container)
  * Run `sh /root/start-hadoop.sh` to start hadoop and spark service
  * You can use `sh /root/run-wordcount.sh` to test the hadoop service
- * Visit *http://hadoop-master:50070/* in your browser to check namenode and every datanode's status:  
+ * Visit *http://hadoop-master:50070/*, get into `Utilities`, then click `Browse the file system` to see the Browse Directory. 	* Here you can check namenode and every datanode's status:  
 <div align=center>
 <img src="./img/namenode_web.png" width = "90%" alt="namenode_web"/>
 </div>
@@ -243,8 +253,11 @@ Our EML installation package in version 1.2.0 or above could support Tensorflow 
 ### Stop and restart containers
 * If you want to rebuild the cluster, you can use `sh stop_containers.sh` to stop and remove *hadoop-master, hadoop-slave1 and hadoop-slave2* containers and use `sh rm_images.sh` to remove *cluster* image.
 * If you have restart your docker or entity machine, the containers need to be restarted, you can use `sh restart_service.sh` to restart all containers. But you need to note that after you have executed the `sh restart_service.sh`, you will enter the *hadoop-master* container, meanwhile you also need to execute the `sh restart.sh` in *hadoop-master* container to restart *hadoop, spark and oozie* service.
+* Remember to run `stop_containers.sh` when you don't need hadoop service, or next time you'll find `mysql` images have already existed and mysql can't work.
 
-
+### Using BDA 
+* Make sure you have set well CMDFormat in your own uploaded program, so that it can be easy to use in later jobs.
+* Remember to clarify the relationship among programs especially in distributed jobs.
 
 
 
