@@ -18,6 +18,7 @@ Before you can use **EasyML Studio**, you must configure the environment which i
 <img src="./img/import_jdk.png" height ="400px"  alt="configure JDK path"/>
 </div>
 
+- For Eclipse on macOS, remember to comment out the `jdk.tools` dependency in pom.xml .
   
 ### Step 2: Configure GWT Lib Path
 
@@ -49,7 +50,7 @@ Before you can use **EasyML Studio**, you must configure the environment which i
 </div>
 
 * `Use Super Dev Mode` can allow you debugging your web app at the browser side. It is make debugging more effient, for which remember choosing it. 
-* When you have finished all the steps above, you can click the green run button to make and debug the **EasyML**. After a while, you can browse EasyML in your *Chrome* to accesss it.
+* When you have finished all the steps above, you can click the green run button to make and debug the **EasyML**. After a while, you can browse EasyML in your *Google Chrome* to accesss it.
 <div align=center>
 <img src="./img/home_page.png" width = "90%" alt="Easy ML home page"/>
 </div>
@@ -79,7 +80,7 @@ Our server cluster is based on ***Docker***, thus you can build run time environ
 	<img src="./img/origin_images.png" width = "90%" alt="eml_images"/>
  
 ### Step 4: Download install dependent package
-Every single server in our cluster is created by one *docker image*, and this *image* can be built via a **Dockerfile** which has defined by us and includes all utilities we need such as hadoop. Thus we need to download the **Dockerfile** and all dependent files and configuration files from our [google drive disk](https://drive.google.com/open?id=0B5Lj6qkCMBbFWW5uYlJwb2drb1k) or [Baidu Cloud](https://pan.baidu.com/s/1miFXzVq).
+Every single server in our cluster is created by one *docker image*, and this *image* can be built via a **Dockerfile** which has defined by us and includes all utilities we need such as hadoop. Thus we need to download the **Dockerfile** and all dependent files and configuration files from our [google drive disk](https://drive.google.com/open?id=0B5Lj6qkCMBbFWW5uYlJwb2drb1k) or [Baidu Cloud](https://pan.baidu.com/s/1bpMwYSJ#list/path=%2F).
 
 
 ### Step 5: Build Eml server images  
@@ -172,7 +173,11 @@ Because the hadoop cluster network communication depend on ssh, we need to confi
 ### Stop and restart containers
 * If you want to rebuild the cluster, you can use `sh stop_containers.sh` to stop and remove *hadoop-master, hadoop-slave1 and hadoop-slave2* containers and use `sh rm_images.sh` to remove *cluster* image.
 * If you have restart your docker or entity machine, the containers need to be restarted, you can use `sh restart_service.sh` to restart all containers. But you need to note that after you have executed the `sh restart_service.sh`, you will enter the *hadoop-master* container, meanwhile you also need to execute the `sh restart.sh` in *hadoop-master* container to restart *hadoop, spark and oozie* service.
+* Remember to run stop_containers.sh when you don't need the hadoop service, or next time you'll find that mysql images will be existed and mysql doesn't work that time.
 
+### Upload data and program:
+* Make sure you have set well CMDFormat in your program, so that it can be easy to use in later jobs.
+* Remember to clarify the relationship among programs especially in distributed jobs.
 
 
 
